@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .calculator {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+        }
+        input[type="text"] {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 18px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #d0d0d0;
+        }
+        .operator {
+            background-color: #f0ad4e;
+            color: white;
+        }
+        .operator:hover {
+            background-color: #ec971f;
+        }
+		
+		 #equals {
+            background-color: #4caf50;
+            color: white;
+        }
+        #equals:hover {
+            background-color: #45a049;
+        }
+        #clear {
+            background-color: #f44336;
+            color: white;
+        }
+        #clear:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button onclick="appendToDisplay('7')">7</button>
+            <button onclick="appendToDisplay('8')">8</button>
+            <button onclick="appendToDisplay('9')">9</button>
+            <button class="operator" onclick="setOperation('+')">+</button>
+            <button onclick="appendToDisplay('4')">4</button>
+            <button onclick="appendToDisplay('5')">5</button>
+            <button onclick="appendToDisplay('6')">6</button>
+            <button class="operator" onclick="setOperation('-')">-</button>
+            <button onclick="appendToDisplay('1')">1</button>
+            <button onclick="appendToDisplay('2')">2</button>
+            <button onclick="appendToDisplay('3')">3</button>
+            <button class="operator" onclick="setOperation('*')">*</button>
+            <button onclick="appendToDisplay('0')">0</button>
+            <button onclick="appendToDisplay('.')">.</button>
+            <button class="operator" onclick="calculate()" id="equals">=</button>
+            <button class="operator" onclick="setOperation('/')">/</button>
+            <button class="operator" onclick="setOperation('%')">%</button>
+            <button class="operator" onclick="setOperation('^')">^</button>
+            <button class="operator" onclick="squareRoot()">√</button>
+            <button class="operator" onclick="square()">x²</button>
+            <button onclick="clearDisplay()" id="clear">C</button>
+        </div>
+    </div>
+
+    <script>
+        let display = document.getElementById('display');
+        let currentValue = '';
+        let operation = '';
+        let previousValue = '';
+
+        function appendToDisplay(value) {
+            currentValue += value;
+            display.value = currentValue;
+        }
+
+        function clearDisplay() {
+            currentValue = '';
+            operation = '';
+            previousValue = '';
+            display.value = '';
+        }
+
+        function setOperation(op) {
+            if (currentValue !== '') {
+                operation = op;
+                previousValue = currentValue;
+                currentValue = '';
+            }
+        }
+
+        function calculate() {
+            if (previousValue !== '' && currentValue !== '' && operation !== '') {
+                let result;
+                switch (operation) {
+                    case '+':
+                        result = parseFloat(previousValue) + parseFloat(currentValue);
+                        break;
+                    case '-':
+                        result = parseFloat(previousValue) - parseFloat(currentValue);
+                        break;
+                    case '*':
+                        result = parseFloat(previousValue) * parseFloat(currentValue);
+                        break;
+                    case '/':
+                        result = parseFloat(previousValue) / parseFloat(currentValue);
+                        break;
+                    case '%':
+                        result = parseFloat(previousValue) % parseFloat(currentValue);
+                        break;
+                    case '^':
+                        result = Math.pow(parseFloat(previousValue), parseFloat(currentValue));
+                        break;
+                }
+                display.value = result;
+                currentValue = result.toString();
+                operation = '';
+                previousValue = '';
+            }
+        }
+        function squareRoot() {
+            if (currentValue !== '') {
+                let result = Math.sqrt(parseFloat(currentValue));
+                display.value = result;
+                currentValue = result.toString();
+            }
+        }
+        function square() {
+            if (currentValue !== '') {
+                let result = Math.pow(parseFloat(currentValue), 2);
+                display.value = result;
+                currentValue = result.toString();
+            }
+        }
+    </script>
+</body>
+</html>
+
